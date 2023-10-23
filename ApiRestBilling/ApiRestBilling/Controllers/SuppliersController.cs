@@ -97,8 +97,22 @@ namespace ApiRestBilling.Controllers
 
         // DELETE api/<SuppliersController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            if (_context.Suppliers is null)
+            {
+                return NotFound();
+            }
+
+            var supplier = await _context.Suppliers.FirstOrDefaultAsync(s => s.Id==id);
+            if (supplier == null) {
+                return NotFound();
+            }
+
+            _context.Suppliers.Remove(supplier);
+            await _context.SaveChangesAsync();
+            return NoContent();
+
         }
     }
 }
