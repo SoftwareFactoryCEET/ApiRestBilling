@@ -28,12 +28,24 @@ namespace ApiRestBilling.Controllers
             }
             return await _context.Suppliers.ToListAsync();
         }
+        
 
         // GET api/<SuppliersController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id}")]   
+        public async Task<ActionResult<Supplier>> Get(int id)
         {
-            return "value";
+            if (_context.Suppliers == null)
+            {
+                return NotFound();
+            }
+            var supplier = await _context.Suppliers.FindAsync(id);
+
+            if (supplier is null)
+            {
+                return NotFound();
+            }
+
+            return supplier;
         }
 
         // POST api/<SuppliersController>
