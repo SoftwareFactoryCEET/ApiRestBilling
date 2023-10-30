@@ -92,6 +92,33 @@ namespace ApiRestBilling.Controllers
           {
               return Problem("Entity set 'ApplicationDbContext.Orders'  is null.");
           }
+
+            //Calcular el total de la Orden de Compra
+            decimal? totalOrden = 0;
+
+            foreach (var oi in order.OrderItems)
+            {
+                //Buscar el producto en la base de datos por su ID
+                var producto = await _context.Products.FindAsync(oi.ProductId);
+
+                if (producto == null)
+                {
+                    return BadRequest($"El producto con ID {oi.ProductId} no fue encontrado");
+                }
+
+                //Asignar el precio uitario del producto al detalle.
+                oi.UnitPrice = producto.UnitPrice;
+
+                //Calcular el Subtotal de cada uno de los items de la orden
+                oi.Subtotal = oi.UnitPrice * oi.Quantity;
+
+                //Calcular el Total de la OC
+                totalOrden += oi.Subtotal;
+            }
+
+            //Asignar el total calculado a la Orden de COmpra
+            order.TotalAmount = Convert.ToDecimal(totalOrden);
+
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
 
