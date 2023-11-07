@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ApiRestBilling.Migrations
 {
     /// <inheritdoc />
-    public partial class initialmodelswihtoutvalidatios : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,11 +17,11 @@ namespace ApiRestBilling.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FirstName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -34,12 +34,12 @@ namespace ApiRestBilling.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CompanyName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContactTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    City = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CompanyName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    ContactName = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    ContactTitle = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    City = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Country = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Phone = table.Column<string>(type: "nvarchar(16)", maxLength: 16, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -75,10 +75,10 @@ namespace ApiRestBilling.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProductName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProductName = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
                     SupplierId = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Package = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Package = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
                     IsDiscontinued = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
@@ -101,7 +101,8 @@ namespace ApiRestBilling.Migrations
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Quantity = table.Column<int>(type: "int", nullable: false)
+                    Quantity = table.Column<int>(type: "int", nullable: false),
+                    Subtotal = table.Column<decimal>(type: "decimal(18,2)", nullable: true)
                 },
                 constraints: table =>
                 {
